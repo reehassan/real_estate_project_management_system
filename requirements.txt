@@ -1,0 +1,9 @@
+# Web FrameWork LTS Till April 2028
+Django==5.2.12
+# PostgressSQL Driver For Django
+psycopg2-binary==2.9.11
+gunicorn==22.0.0
+django-htmx==1.18.0
+WeasyPrint==62.3
+python-decouple==3.8
+Pillow==10.4.0
