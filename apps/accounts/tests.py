@@ -8,19 +8,19 @@ class UserAuthTest(TestCase):
         self.owner = User.objects.create_user(
             username='owner',
             password='test123',
-            Role='OWNER'
+            role='OWNER'
         )
 
         self.staff = User.objects.create_user(
             username='staff',
             password='test123',
-            Role='STAFF'
+            role='STAFF'
         )
 
         self.customer = User.objects.create_user(
             username='customer',
             password='test999',
-            Role='CUSTOMER'
+            role='CUSTOMER'
         )
 
     def test_owner_can_login(self):
