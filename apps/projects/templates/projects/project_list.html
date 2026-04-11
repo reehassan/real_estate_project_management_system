@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block title %}Projects — Dreamland PMS{% endblock %}
+
+{% block breadcrumb %}
+<span class="text-sm font-medium text-slate-700">Projects</span>
+{% endblock %}
+
+{% block content %}
+
+<!-- Page Header -->
+<div class="flex items-center justify-between mb-6">
+    <div>
+        <h1 class="text-2xl font-bold text-slate-900">Projects</h1>
+        <p class="text-sm text-slate-500 mt-1">
+            {{ total_count }} project{{ total_count|pluralize }} total
+        </p>
+    </div>
+</div>
+
+<!-- Empty State -->
+{% if not projects %}
+<div class="bg-white rounded-xl border border-slate-200 py-20 text-center">
+    <div class="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16"/>
+        </svg>
+    </div>
+    <p class="text-slate-500 font-medium">No projects found</p>
+    <p class="text-slate-400 text-sm mt-1">Add your first project from the admin panel</p>
+</div>
+
+<!-- Project Cards -->
+{% else %}
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+    {% for project in projects %}
+
+    <a href="{% url 'projects:plot_list' project.slug %}"
+       class="group bg-white rounded-xl border border-slate-200 overflow-hidden
+              hover:border-blue-300 hover:shadow-md transition-all duration-200">
+
+        <!-- Card Top — Logo or Placeholder -->
+        {% if project.logo %}
+            <img src="{{ project.logo.url }}"
+                 alt="{{ project.name }}"
+                 class="w-full h-36 object-cover">
+        {% else %}
+            <div class="w-full h-36 bg-gradient-to-br from-blue-600 to-blue-800
+                        flex items-center justify-center">
+                <span class="text-5xl font-black text-blue-300 opacity-60 select-none">
+                    {{ project.name|first|upper }}
+                </span>
+            </div>
+        {% endif %}
+
+        <!-- Card Body -->
+        <div class="p-5">
+
+            <!-- Name + Status -->
+            <div class="flex items-start justify-between gap-2 mb-3">
+                <h2 class="font-semibold text-slate-900 text-base leading-snug
+                           group-hover:text-blue-600 transition-colors truncate">
+                    {{ project.name }}
+                </h2>
+                {% include 'components/_badge.html' with status=project.status label=project.get_status_display %}
+            </div>
+
+            <!-- Location -->
+            <p class="text-xs text-slate-400 flex items-center gap-1.5 mb-3">
+                <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+                {{ project.city }} &mdash; {{ project.get_project_type_display }}
+            </p>
+
+            <!-- Footer Stats -->
+            <div class="flex items-center justify-between pt-3 border-t border-slate-100">
+                <span class="text-xs text-slate-400">
+                    {{ project.plots.count }} plot{{ project.plots.count|pluralize }}
+                </span>
+                <span class="text-xs text-slate-400">
+                    {{ project.start_date|date:"M Y" }}
+                </span>
+            </div>
+
+        </div>
+    </a>
+
+    {% endfor %}
+</div>
+{% endif %}
+
+{% endblock %}
