@@ -9,6 +9,7 @@ urlpatterns = [
     path('accounts/', include('apps.accounts.urls')), 
     path('projects/', include('apps.projects.urls', namespace='projects')),
     path('plots/',include('apps.plots.urls')),
+    path('customer/', include('apps.customer.urls')),
 ]
 
 # ── Serve media files in development only ────────────────────────
